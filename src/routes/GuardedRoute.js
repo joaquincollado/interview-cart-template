@@ -3,7 +3,8 @@ import { useCart } from '../context/CartContext';
 
 const isNotEmpty = (value) => value !== '';
 
-const hasSelectedProducts = (state) => state.selectedProducts.length > 0;
+const hasSelectedProducts = (state) =>
+  Object.keys(state.selectedProducts).length > 0;
 
 const hasRegistration = (state) =>
   isNotEmpty(state.registration.name) && isNotEmpty(state.registration.address);
@@ -33,13 +34,6 @@ const GuardedRoute = ({ children, require, redirectTo, ...props }) => {
           ? '/cart/payment'
           : '/cart');
 
-  console.log('🟡 GUARD', require, {
-    allowed,
-    fallback,
-    selectedProducts: state.selectedProducts,
-    registration: state.registration,
-    payment: state.payment,
-  });
   return (
     <Route
       {...props}

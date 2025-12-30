@@ -4,7 +4,7 @@ const STORAGE_KEY = 'cart-state';
 
 export const initialState = {
   products: [],
-  selectedProducts: [],
+  selectedProducts: {},
   registration: {
     name: '',
     address: '',
@@ -19,17 +19,58 @@ export const cartReducer = (state, action) => {
   switch (action.type) {
     case CartActions.SET_PRODUCTS:
       return { ...state, products: action.payload };
-    case CartActions.TOGGLE_PRODUCT:
-      const id = action.payload;
-      const exists = state.selectedProducts.includes(id);
+    case CartActions.SET_QUANTITY:
+      const { productId, quantity } = action.payload;
+      const newSelectedProducts = { ...state.selectedProducts };
+      if (quantity <= 0) {
+        delete newSelectedProducts[productId];
+      } else {
+        newSelectedProducts[productId] = quantity;
+      }
       return {
         ...state,
-        selectedProducts: exists
-          ? state.selectedProducts.filter((productId) => productId !== id)
-          : [...state.selectedProducts, id],
+        selectedProducts: newSelectedProducts,
+      };
+    case CartActions.INCREASE_QUANTITY:
+      return {
+        ...state,
+        selectedProducts: {
+          ...state.selectedProducts,
+          [action.payload]: (state.selectedProducts[action.payload] || 0) + 1,
+        },
+      };
+    case CartActions.DECREASE_QUANTITY:
+      const currentQty = state.selectedProducts[action.payload] || 0;
+      if (currentQty <= 1) {
+        const { [action.payload]: removed, ...rest } = state.selectedProducts;
+        return { ...state, selectedProducts: rest };
+      }
+      return {
+        ...state,
+        selectedProducts: {
+          ...state.selectedProducts,
+          [action.payload]: currentQty - 1,
+        },
+      };
+    case CartActions.REMOVE_PRODUCT:
+      const { [action.payload]: removed, ...remaining } =
+        state.selectedProducts;
+      return { ...state, selectedProducts: remaining };
+    case CartActions.TOGGLE_PRODUCT:
+      const id = action.payload;
+      const exists = state.selectedProducts[id];
+      const updated = { ...state.selectedProducts };
+      if (exists) {
+        delete updated[id];
+      } else {
+        updated[id] = 1;
+      }
+      return {
+        ...state,
+        selectedProducts: updated,
       };
     case CartActions.CLEAR_PRODUCTS:
-      return { ...state, selectedProducts: [] };
+      return { ...state, selectedProducts: {} };
     case CartActions.SET_REGISTRATION:
       return {
         ...state,

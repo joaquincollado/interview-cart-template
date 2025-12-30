@@ -39,11 +39,17 @@ export const CartProvider = ({ children }) => {
   });
   useEffect(() => {
     saveState({
+      products: state.products,
       selectedProducts: state.selectedProducts,
       registration: state.registration,
       payment: state.payment,
     });
-  }, [state.selectedProducts, state.registration, state.payment]);
+  }, [
+    state.products,
+    state.selectedProducts,
+    state.registration,
+    state.payment,
+  ]);
   const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

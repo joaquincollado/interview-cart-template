@@ -6,14 +6,16 @@ import PaymentStep from './cart/payment/PaymentStep';
 import ConfirmationStep from './cart/confirmation/ConfirmationStep';
 import { CartProvider } from '../context/CartContext';
 import GuardedRoute from '../routes/GuardedRoute';
+import StepIndicator from '../components/StepIndicator';
 
 const Cart = () => {
   const { path } = useRouteMatch();
 
   return (
-    <>
-      <h1>Checkout</h1>
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold text-white mb-2">Checkout</h1>
       <CartProvider>
+        <StepIndicator />
         <Switch>
           <Route exact path={path}>
             <ProductsStep />
@@ -47,7 +49,7 @@ const Cart = () => {
           </GuardedRoute>
         </Switch>
       </CartProvider>
-    </>
+    </div>
   );
 };
 

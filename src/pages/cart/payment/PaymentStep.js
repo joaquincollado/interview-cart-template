@@ -3,7 +3,6 @@ import PaymentForm from '../../../components/PaymentForm';
 import { useCart } from '../../../context/CartContext';
 import { useEffect } from 'react';
 import { CartActions } from '../../../context/CartActions';
-
 const PaymentStep = () => {
   const history = useHistory();
   const { state, dispatch } = useCart();
@@ -31,14 +30,14 @@ const PaymentStep = () => {
   };
 
   return (
-    <>
-      <h2>Step 3: Payment</h2>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-semibold text-white">Step 3: Payment</h2>
       <PaymentForm
         onNext={() => history.push('/cart/confirmation')}
         onCancel={() => history.push('/cart/registration')}
         onChange={handleChange}
       />
-    </>
+    </div>
   );
 };
 

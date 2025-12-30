@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Button, Loader } from 'mc-components';
 import { useHistory } from 'react-router-dom';
 import { getProducts } from '../../../api';
 import ProductsList from '../../../components/ProductsList';
@@ -14,7 +15,8 @@ const ProductsStep = () => {
     history.push('/cart/registration');
   };
 
-  const canProceed = state.selectedProducts.length > 0 && status === 'success';
+  const canProceed =
+    Object.keys(state.selectedProducts).length > 0 && status === 'success';
 
   useEffect(() => {
     setStatus('loading');
@@ -27,19 +29,29 @@ const ProductsStep = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <h2>Step 1: Products</h2>
-      {status === 'loading' && <p>Loading products...</p>}
-      {status === 'error' && <p>Error loading products</p>}
+    <div className="space-y-6">
+      <h2 className="text-2xl font-semibold text-white">Step 1: Products</h2>
+      {status === 'loading' && (
+        <div className="flex justify-center items-center py-12">
+          <Loader />
+        </div>
+      )}
+      {status === 'error' && (
+        <p className="text-red-600">Error loading products</p>
+      )}
       {status === 'success' && (
         <>
-          <ProductsList products={state.products} />
-          <button type="button" onClick={handleNext} disabled={!canProceed}>
-            Next
-          </button>
+          <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 shadow-2xl">
+            <ProductsList products={state.products} />
+          </div>
+          <div className="flex justify-end">
+            <Button onClick={handleNext} disabled={!canProceed}>
+              Next
+            </Button>
+          </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 
