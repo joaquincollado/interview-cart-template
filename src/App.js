@@ -1,9 +1,12 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 
 import Layout from './Layout';
-import Products from './pages/Products'
-import Cart from './pages/Cart'
-
+import Cart from './pages/Cart';
 
 const App = () => {
   return (
@@ -13,15 +16,16 @@ const App = () => {
           <Route path="/cart">
             <Cart />
           </Route>
-
-          <Route path="/">
-            <Products />
+          <Route exact path="/">
+            <Redirect to="/cart" />
+          </Route>
+          <Route>
+            <Redirect to="/cart" />
           </Route>
         </Switch>
       </Layout>
     </Router>
-  )
-}
+  );
+};
 
-
-export default App
+export default App;

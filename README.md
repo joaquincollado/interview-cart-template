@@ -9,6 +9,7 @@ This project is not designed to trick you in any way, but to analyze _how you de
 The following requirements help frame the area of focus:
 
 ### Functional Requirements
+
 - The cart is a multi-step flow, one screen per step
   - Product Selection
   - Registration (name, address)
@@ -17,6 +18,7 @@ The following requirements help frame the area of focus:
 - User _must_ be able to traverse back and forth between the steps until finally reaching confirmation
 
 **Nice to have:**
+
 - User _could_ refresh and maintain state
 
 ### Technical Requirements
@@ -25,6 +27,7 @@ The following requirements help frame the area of focus:
   - We have stubbed these [requests](https://github.com/yankaindustries/interview-cart/blob/main/src/api.js)
 
 ### Out of Scope
+
 - Server architecture
 - Authentication implementation
 - 3rd-party payments, PayPal / ApplePay
