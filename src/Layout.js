@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 
-import ProductsList from './components/ProductsList';
-
 function Layout({ children }) {
   return (
     <section>

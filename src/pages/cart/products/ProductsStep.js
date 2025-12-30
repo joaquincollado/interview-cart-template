@@ -24,7 +24,7 @@ const ProductsStep = () => {
         setStatus('success');
       })
       .catch(() => setStatus('error'));
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

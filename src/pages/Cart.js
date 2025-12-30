@@ -1,10 +1,11 @@
-import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import ProductsStep from './cart/products/ProductsStep';
 import RegistrationStep from './cart/registration/RegistrationStep';
 import PaymentStep from './cart/payment/PaymentStep';
 import ConfirmationStep from './cart/confirmation/ConfirmationStep';
 import { CartProvider } from '../context/CartContext';
+import GuardedRoute from '../routes/GuardedRoute';
 
 const Cart = () => {
   const { path } = useRouteMatch();
@@ -18,21 +19,32 @@ const Cart = () => {
             <ProductsStep />
           </Route>
 
-          <Route exact path={`${path}/registration`}>
+          <GuardedRoute
+            exact
+            require="products"
+            redirectTo={path}
+            path={`${path}/registration`}
+          >
             <RegistrationStep />
-          </Route>
+          </GuardedRoute>
 
-          <Route exact path={`${path}/payment`}>
+          <GuardedRoute
+            exact
+            require="registration"
+            redirectTo={`${path}/registration`}
+            path={`${path}/payment`}
+          >
             <PaymentStep />
-          </Route>
+          </GuardedRoute>
 
-          <Route exact path={`${path}/confirmation`}>
+          <GuardedRoute
+            exact
+            require="payment"
+            redirectTo={`${path}/payment`}
+            path={`${path}/confirmation`}
+          >
             <ConfirmationStep />
-          </Route>
-
-          <Route>
-            <Redirect to={`${path}`} />
-          </Route>
+          </GuardedRoute>
         </Switch>
       </CartProvider>
     </>

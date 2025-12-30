@@ -1,13 +1,14 @@
-import { useState } from 'react';
 import { makePurchase } from '../api';
+import { useCart } from '../context/CartContext';
 
-const PaymentForm = ({ onNext, onCancel }) => {
-  const [name, setName] = useState('JANE M. DOE');
-  const [card, setCard] = useState('4242 4242 4242 4242');
-
+const PaymentForm = ({ onNext, onCancel, onChange }) => {
+  const { state } = useCart();
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ name, card });
+    console.log({
+      name: state.payment.name,
+      card: state.payment.card,
+    });
     makePurchase().then(() => {
       onNext();
     });
@@ -21,8 +22,8 @@ const PaymentForm = ({ onNext, onCancel }) => {
         <input
           type="text"
           name="name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
+          value={state.payment.name}
+          onChange={onChange}
         />
       </div>
 
@@ -32,8 +33,8 @@ const PaymentForm = ({ onNext, onCancel }) => {
         <input
           type="text"
           name="card"
-          value={card}
-          onChange={(event) => setCard(event.target.value)}
+          value={state.payment.card}
+          onChange={onChange}
         />
       </div>
 

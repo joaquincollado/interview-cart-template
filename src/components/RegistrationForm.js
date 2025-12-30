@@ -1,12 +1,10 @@
-import { useState } from 'react';
+import { useCart } from '../context/CartContext';
 
-const RegistrationForm = ({ onNext, onCancel }) => {
-  const [name, setName] = useState('Jane Doe');
-  const [address, setAddress] = useState('1234 Neat Street');
-
+const RegistrationForm = ({ onNext, onCancel, onChange }) => {
+  const { state } = useCart();
   const handleSubmit = (event) => {
     event.preventDefault();
-    onNext({ name, address });
+    onNext();
   };
 
   return (
@@ -17,8 +15,8 @@ const RegistrationForm = ({ onNext, onCancel }) => {
         <input
           type="text"
           name="name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
+          value={state.registration.name}
+          onChange={onChange}
         />
       </div>
 
@@ -28,8 +26,8 @@ const RegistrationForm = ({ onNext, onCancel }) => {
         <textarea
           type="text"
           name="address"
-          value={address}
-          onChange={(event) => setAddress(event.target.value)}
+          value={state.registration.address}
+          onChange={onChange}
         />
       </div>
 
